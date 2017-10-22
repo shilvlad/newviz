@@ -4,33 +4,38 @@ from django.db import models
 
 # Create your models here.
 
-class Acts(models.Model):
+class Act(models.Model):
     TaskId = models.CharField(max_length=100)
     BarCode = models.CharField(max_length=10)
     UserName = models.CharField(max_length=100)
-    IdBuilding = models.ForeignKey('Buildings')
+    IdBuilding = models.ForeignKey('Building')
     Location = models.CharField(max_length=100)
     DateTime = models.DateTimeField
-    Cartridge = models.ForeignKey('Cartridges')
+    Cartridge = models.ForeignKey('Cartridge')
     Specialist = models.CharField(max_length=100)
     def __str__(self):
         return self.TaskId
 
-class Buildings(models.Model):
+class Building(models.Model):
     BuildingName = models.CharField(max_length=100)
     def __str__(self):
-        return self.BuildingName
+        return self.BuildingName.encode('utf-8')
 
-class Cartridges(models.Model):
+class Cartridge(models.Model):
     CartridgeName = models.CharField(max_length=100)
     Description = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
-        return self.CartridgeName
+        return self.CartridgeName.encode('utf-8')
 
-class Printers(models.Model):
+class Printer(models.Model):
     PrinterName = models.CharField(max_length=100)
-    Description = models.CharField(max_length=100)
+    Description = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
-        return self.PrinterName
+        return self.PrinterName.encode('utf-8')
 
+class RelCartridgePrinter(models.Model):
+    IdPrinter = models.ForeignKey('Printer')
+    IdCartridge = models.ForeignKey('Cartridge')
+    def __str__(self):
+        return self.IdPrinter.PrinterName.encode('utf-8') + ' - ' + self.IdCartridge.CartridgeName.encode('utf-8')
 
