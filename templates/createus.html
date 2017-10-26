@@ -1,19 +1,17 @@
-
 {% extends 'base.html' %}
 
 {% block title %}
-    Главная
+    Добавление User Story
 {% endblock %}
 
 {% block content %}
 
 
     {%  if user.is_authenticated %}
-        <form action="/" method="GET">
+
+        <form action="/createus/" method="POST">
             {% csrf_token %}
-            <table>
-                {{ form.as_td }}
-            </table>
+            {{ form.as_oc }}
             <input type="submit" value="Создать" />
         </form>
     {% else %}

@@ -1,20 +1,25 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
-from django.shortcuts import HttpResponseRedirect
-from forms import ActForm
+from django.shortcuts import HttpResponseRedirect, HttpResponse
+from forms import ActForm, CreateUS
+from models import UserStories
 
 
+
+# TODO Дописываем в части создания акта
+# FIXME Не создается акт
+#
 def start(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
+
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
+
             return HttpResponseRedirect('/thanks/')
 
     else:
@@ -34,11 +39,35 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect('/')
             else:
-                return HttpResponse("Your account is disabled.")
+                return HttpResponseRedirect('/')
         else:
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return HttpResponseRedirect('/')
+    else:
+        return HttpResponse("Херня какая-то")
 
 def user_logout(request):
     logout(request)
     return render(request, 'main.html')
+
+def createus(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = CreateUS(request.POST)
+            if form.is_valid():
+
+                print "Форма Валидна"
+                UserStory = UserStories()
+                UserStory.ShortDescription = request.POST['ShortDesc']
+                UserStory.FullDescription = request.POST['FullDesc']
+                UserStory.Author = request.user.username
+                UserStory.save()
+                return HttpResponse("Чудненько")
+            else:
+                return HttpResponse("Форма не валидна")
+        else:
+            form = CreateUS()
+            return render(request, 'createus.html', {'form': form})
+    else:
+        return HttpResponse("Залогинься!")
+

@@ -9,7 +9,7 @@ class ActForm(forms.Form):
         max_length=100,
         label=u'Номер задачи',
         widget=forms.TextInput(attrs={'class': 'TaskID', 'placeholder': 'TAS000XXXXXXXXXX', 'name': 'TaskID'}),
-        error_messages={'required': u'Обязательное поле!'}
+        error_messages={'required': u'Обязательное поле!'},
     )
     BarCode = forms.CharField(
         max_length=100,
@@ -39,6 +39,29 @@ class ActForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'Barcode', 'placeholder': u'ФИО Специалиста', 'name': 'Location'}),
         error_messages={'required': u'Обязательное поле!'}
     )
+    def as_td(self):
+        return self._html_output(
+            normal_row=u'<tr><td%(html_class_attr)s>%(label)s </td><td>%(field)s %(help_text)s %(errors)s</td></tr>',
+            error_row=u'<td class="error">%s</td>',
+            row_ender='</tr>',
+            help_text_html=u'<div class="hefp-text">%s</div>',
+            errors_on_separate_row=False)
 
-
+# Добавление User Story
+class CreateUS(forms.Form):
+    ShortDesc = forms.CharField(
+        widget=forms.TextInput(attrs={'size': '99', 'class': 'ShortDesc', 'name': 'ShortDesc'}),
+        label = u'Краткое описание',
+    )
+    FullDesc = forms.CharField(
+        widget=forms.Textarea(attrs={'cols': 100, 'rows': 20 }),
+        label=u'Подробное описание',
+    )
+    def as_oc(self):
+        return self._html_output(
+            normal_row=u'<p%(html_class_attr)s>%(label)s </p><p>%(field)s %(help_text)s %(errors)s</p>',
+            error_row=u'<div class="error">%s</div>',
+            row_ender='</p>',
+            help_text_html=u'<div class="hefp-text">%s</div>',
+            errors_on_separate_row=False)
 

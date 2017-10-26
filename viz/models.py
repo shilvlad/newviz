@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
@@ -39,3 +41,16 @@ class RelCartridgePrinter(models.Model):
     def __str__(self):
         return self.IdPrinter.PrinterName.encode('utf-8') + ' - ' + self.IdCartridge.CartridgeName.encode('utf-8')
 
+class UserStories(models.Model):
+    ShortDescription = models.CharField(max_length=100)
+    FullDescription = models.TextField()
+    CreateStamp = models.DateTimeField(auto_now_add=True)
+    LastEditionStamp = models.DateTimeField(auto_now=True)
+    Approved = models.BooleanField(editable=True, default=False)
+    Solved = models.BooleanField(editable=True, default=False)
+    Comment = models.TextField()
+    Author = models.CharField(max_length=100)
+
+
+    def __str__(self):
+        return self.ShortDescription.encode('utf-8')
