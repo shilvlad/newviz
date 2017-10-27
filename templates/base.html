@@ -29,13 +29,29 @@
 
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 
-                <span class="icon-bar"></span>
+                <span class="icon-bar">fghfgh</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
         </div>
 
         <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'start' %}"><img title='На главную' src="{% static 'icons/16x16/home.png' %}"></a></li>
+                <li><a href="/createact/"><img title='Создать акт' src="{% static 'icons/16x16/add.png' %}"></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="" id="themes">Придумать название<span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="themes">
+                        <li><a href="">1</a></li>
+                        <li class="divider"></li>
+                        {%  if user.is_authenticated %}
+                            <li><a href="/sd">2</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {%  if user.is_authenticated %}
                     <li><a href="/logout">Выйти, {{ user.username }}</a></li>

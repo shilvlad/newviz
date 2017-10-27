@@ -5,29 +5,34 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.shortcuts import HttpResponseRedirect, HttpResponse
-from forms import ActForm, CreateUS
-from models import UserStories
+from forms import ActForm, ModelCreateUS, ModelActForm
+from models import UserStory
 
 
 
-# TODO Дописываем в части создания акта
-# FIXME Не создается акт
-#
+
+
+
 def start(request):
+
+
+    return render(request, 'viz/main.html')
+
+def createact(request):
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-
-        # check whether it's valid:
+        print "Проверяем форму акта"
+        form = ModelActForm(request.POST)
         if form.is_valid():
-
-            return HttpResponseRedirect('/thanks/')
-
+            print "Форма акта валидна"
+            form.save()
+            return HttpResponseRedirect('/createactsuccess/', {'form': form})
     else:
-        form = ActForm()
+        form = ModelActForm()
+    return render(request, 'viz/createact.html', {'form': form})
 
-    return render(request, 'main.html', {'form': form})
+def createactsuccess(request):
 
-
+    return render(request, 'viz/createactsuccess.html')
 
 def user_login(request):
     if request.method == 'POST':
@@ -48,26 +53,22 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return render(request, 'main.html')
+    return render(request, 'viz/main.html')
 
 def createus(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = CreateUS(request.POST)
+            form = ModelCreateUS(request.POST)
             if form.is_valid():
+                form.save()
 
-                print "Форма Валидна"
-                UserStory = UserStories()
-                UserStory.ShortDescription = request.POST['ShortDesc']
-                UserStory.FullDescription = request.POST['FullDesc']
-                UserStory.Author = request.user.username
-                UserStory.save()
+
                 return HttpResponse("Чудненько")
             else:
                 return HttpResponse("Форма не валидна")
         else:
-            form = CreateUS()
-            return render(request, 'createus.html', {'form': form})
+            form = ModelCreateUS()
+            return render(request, 'viz/createus.html', {'form': form})
     else:
         return HttpResponse("Залогинься!")
 

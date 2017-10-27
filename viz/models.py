@@ -17,7 +17,8 @@ class Act(models.Model):
     IdBuilding = models.ForeignKey('Building')
     Location = models.CharField(max_length=100)
     DateTime = models.DateTimeField
-    Cartridge = models.ForeignKey('Cartridge')
+    Device = models.ForeignKey('Device')
+    Supply = models.ForeignKey('Supply')
     Specialist = models.CharField(max_length=100)
     def __str__(self):
         return self.TaskId
@@ -27,25 +28,25 @@ class Building(models.Model):
     def __str__(self):
         return self.BuildingName.encode('utf-8')
 
-class Cartridge(models.Model):
-    CartridgeName = models.CharField(max_length=100)
+class Supply(models.Model):
+    Name = models.CharField(max_length=100)
     Description = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
-        return self.CartridgeName.encode('utf-8')
+        return self.Name.encode('utf-8')
 
-class Printer(models.Model):
-    PrinterName = models.CharField(max_length=100)
+class Device(models.Model):
+    Name = models.CharField(max_length=100)
     Description = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
-        return self.PrinterName.encode('utf-8')
+        return self.Name.encode('utf-8')
 
-class RelCartridgePrinter(models.Model):
-    IdPrinter = models.ForeignKey('Printer')
-    IdCartridge = models.ForeignKey('Cartridge')
+class RelDeviceSupply(models.Model):
+    Device = models.ForeignKey('Device')
+    Supply = models.ForeignKey('Supply')
     def __str__(self):
-        return self.IdPrinter.PrinterName.encode('utf-8') + ' - ' + self.IdCartridge.CartridgeName.encode('utf-8')
+        return self.Device.Name.encode('utf-8') + ' - ' + self.Supply.Name.encode('utf-8')
 
-class UserStories(models.Model):
+class UserStory(models.Model):
     ShortDescription = models.CharField(max_length=100)
     FullDescription = models.TextField()
     CreateStamp = models.DateTimeField(auto_now_add=True)
@@ -54,7 +55,5 @@ class UserStories(models.Model):
     Solved = models.BooleanField(editable=True, default=False)
     Comment = models.TextField()
     Author = models.CharField(max_length=100)
-
-
     def __str__(self):
         return self.ShortDescription.encode('utf-8')

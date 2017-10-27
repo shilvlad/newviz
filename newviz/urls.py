@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^logout/', views.user_logout, name='user_logout'),
     url(r'^login/', views.user_login, name='login'),
     url(r'^createus/', views.createus, name='createus'),
+    url(r'^createact/', views.createact, name='createact'),
+    url(r'^createactsuccess/', views.createactsuccess, name='createactsuccess'),
 ]

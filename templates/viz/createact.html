@@ -1,18 +1,17 @@
-
 {% extends 'base.html' %}
 
 {% block title %}
-    Главная
+    Создание акта
 {% endblock %}
 
 {% block content %}
 
 
     {%  if user.is_authenticated %}
-        <form action="/" method="GET">
+        <form action="/createact/" method="POST">
             {% csrf_token %}
             <table>
-                {{ form.as_td }}
+                {{ form }}
             </table>
             <input type="submit" value="Создать" />
         </form>

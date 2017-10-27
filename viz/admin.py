@@ -1,10 +1,10 @@
 from django.contrib import admin
-from models import Cartridge, Building, Printer, RelCartridgePrinter, UserStories
+from models import Supply, Building, Device, RelDeviceSupply, UserStory, Act
 
 # Register your models here.
-admin.site.register(Cartridge)
+admin.site.register(Supply)
 admin.site.register(Building)
-admin.site.register(Printer)
-admin.site.register(RelCartridgePrinter)
-
-admin.site.register(UserStories)
+admin.site.register(Device)
+admin.site.register(RelDeviceSupply)
+admin.site.register(Act)
+admin.site.register(UserStory)
