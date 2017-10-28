@@ -16,12 +16,21 @@ class Act(models.Model):
     UserName = models.CharField(max_length=100)
     IdBuilding = models.ForeignKey('Building')
     Location = models.CharField(max_length=100)
+    Department = models.ForeignKey('Department')
     DateTime = models.DateTimeField
     Device = models.ForeignKey('Device')
     Supply = models.ForeignKey('Supply')
+    SupplyType = models.ForeignKey('SupplyType')
     Specialist = models.CharField(max_length=100)
+    Group = models.ForeignKey('User', unique=True)
     def __str__(self):
         return self.TaskId
+
+
+class Department(models.Model):
+    Name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.Name.encode('utf-8')
 
 class Building(models.Model):
     BuildingName = models.CharField(max_length=100)
@@ -31,6 +40,12 @@ class Building(models.Model):
 class Supply(models.Model):
     Name = models.CharField(max_length=100)
     Description = models.CharField(max_length=100, blank=True, null=True)
+    SupplyType = models.ForeignKey('SupplyType')
+    def __str__(self):
+        return self.Name.encode('utf-8')
+
+class SupplyType(models.Model):
+    Name = models.CharField(max_length=100)
     def __str__(self):
         return self.Name.encode('utf-8')
 
