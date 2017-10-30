@@ -32,9 +32,11 @@ class ModelActForm(ModelForm):
             "BarCode":"Баркод устройства",
             "UserName":"ФИО пользователя",
             "IdBuilding":"Здание",
+            "Department": "Департамент",
             "Location":"Расположение",
             "Device":"Устройство",
             "Supply":"Расходник",
+            "SupplyType": "Тип расходки",
             "Specialist":"Сотрудник",
         }
 
@@ -53,3 +55,4 @@ class ModelCreateUS(ModelForm):
             row_ender='</p>',
             help_text_html=u'<div class="hefp-text">%s</div>',
             errors_on_separate_row=False)
+

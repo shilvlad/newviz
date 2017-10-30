@@ -6,8 +6,8 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.shortcuts import HttpResponseRedirect, HttpResponse
 from forms import ActForm, ModelCreateUS, ModelActForm
-from models import UserStory
-
+from models import Act
+from datetime import datetime, date, time
 
 
 
@@ -17,22 +17,6 @@ def start(request):
 
 
     return render(request, 'viz/main.html')
-
-def createact(request):
-    if request.method == 'POST':
-        print "Проверяем форму акта"
-        form = ModelActForm(request.POST)
-        if form.is_valid():
-            print "Форма акта валидна"
-            form.save()
-            return HttpResponseRedirect('/createactsuccess/', {'form': form})
-    else:
-        form = ModelActForm()
-    return render(request, 'viz/createact.html', {'form': form})
-
-def createactsuccess(request):
-
-    return render(request, 'viz/createactsuccess.html')
 
 def user_login(request):
     if request.method == 'POST':
@@ -62,8 +46,7 @@ def createus(request):
             if form.is_valid():
                 form.save()
 
-
-                return HttpResponse("Чудненько")
+                return render(request, 'viz/createussuccess.html')
             else:
                 return HttpResponse("Форма не валидна")
         else:
@@ -72,3 +55,29 @@ def createus(request):
     else:
         return HttpResponse("Залогинься!")
 
+def createact(request):
+    if request.method == 'POST':
+        print "Проверяем форму акта"
+        form = ModelActForm(request.POST)
+        if form.is_valid():
+            print "Форма акта валидна"
+            form.save()
+            date = datetime.now()
+            context = {
+                'date': date.strftime("%d-%m-%Y"),
+                'barcode': form.cleaned_data['BarCode'],
+                'device': form.cleaned_data['Device'],
+                'building': form.cleaned_data['IdBuilding'],
+                'location': form.cleaned_data['Location'],
+                'department': form.cleaned_data['Department'],
+                'taskid': form.cleaned_data['TaskId'],
+                'type': form.cleaned_data['SupplyType'],
+                'supply': form.cleaned_data['Supply'],
+                'user': form.cleaned_data['UserName'],
+                'specialist': form.cleaned_data['Specialist'],
+            }
+
+            return render(request, 'viz/createactsuccess.html', context)
+    else:
+        form = ModelActForm()
+    return render(request, 'viz/createact.html', {'form': form})

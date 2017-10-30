@@ -42,10 +42,10 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="" id="themes">Придумать название<span class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="themes">
+                         {%  if user.is_authenticated %}
                         <li><a href="">1</a></li>
                         <li class="divider"></li>
-                        {%  if user.is_authenticated %}
-                            <li><a href="/sd">2</a></li>
+                        <li><a href="">2</a></li>
                         {% endif %}
                     </ul>
                 </li>
