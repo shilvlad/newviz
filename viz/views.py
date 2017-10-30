@@ -8,6 +8,7 @@ from django.shortcuts import HttpResponseRedirect, HttpResponse
 from forms import ActForm, ModelCreateUS, ModelActForm
 from models import Act
 from datetime import datetime, date, time
+from models import SupplyType, Supply
 
 
 
@@ -61,8 +62,13 @@ def createact(request):
         form = ModelActForm(request.POST)
         if form.is_valid():
             print "Форма акта валидна"
-            form.save()
+            f = form.save()
             date = datetime.now()
+            
+            s = SupplyType.objects.get(Name=form.cleaned_data['Supply'])
+            print s.Name
+            #st = SupplyType.objects.get()
+
             context = {
                 'date': date.strftime("%d-%m-%Y"),
                 'barcode': form.cleaned_data['BarCode'],
@@ -71,13 +77,15 @@ def createact(request):
                 'location': form.cleaned_data['Location'],
                 'department': form.cleaned_data['Department'],
                 'taskid': form.cleaned_data['TaskId'],
-                'type': form.cleaned_data['SupplyType'],
                 'supply': form.cleaned_data['Supply'],
                 'user': form.cleaned_data['UserName'],
                 'specialist': form.cleaned_data['Specialist'],
+                'supplytype': st.Name.encode('urf-8')
             }
 
             return render(request, 'viz/createactsuccess.html', context)
     else:
-        form = ModelActForm()
+        form = ModelActForm(initial={'Specialist': request.user.id})
+
+
     return render(request, 'viz/createact.html', {'form': form})
