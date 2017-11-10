@@ -21,8 +21,8 @@ class Act(models.Model):
     Device = models.ForeignKey('Device')
     Supply = models.ForeignKey('Supply')
     SupplyType = models.ForeignKey('SupplyType')
-    Specialist = models.CharField(max_length=100)
-    Group = models.ForeignKey('User', unique=True)
+    Specialist = models.ForeignKey(User)
+    Group = models.CharField(max_length=100)
     def __str__(self):
         return self.TaskId
 

@@ -64,7 +64,6 @@ def createact(request):
             print "Форма акта валидна"
             f = form.save()
             date = datetime.now()
-            
             s = SupplyType.objects.get(Name=form.cleaned_data['Supply'])
             print s.Name
             #st = SupplyType.objects.get()
